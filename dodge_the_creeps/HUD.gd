@@ -52,6 +52,7 @@ func update_score(new_score):
 
 func _on_StartButton_pressed():
 	$StartButton.hide()
+	$ResetButton.hide()
 	start_game.emit()
 
 
