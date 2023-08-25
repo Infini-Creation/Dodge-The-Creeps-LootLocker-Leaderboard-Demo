@@ -1,0 +1,64 @@
+[gd_scene load_steps=5 format=3 uid="uid://cho1t5qw6ma6h"]
+
+[ext_resource type="Script" path="res://submitScore.gd" id="1_7af1e"]
+[ext_resource type="FontFile" uid="uid://cit6gwe5px1q8" path="res://fonts/Xolonium-Regular.ttf" id="2_01tm3"]
+
+[sub_resource type="InputEventAction" id="InputEventAction_u328w"]
+action = &"submit_score"
+
+[sub_resource type="Shortcut" id="Shortcut_8hrsr"]
+events = [SubResource("InputEventAction_u328w")]
+
+[node name="SubmitScore" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_7af1e")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+alignment = 1
+
+[node name="Label" type="Label" parent="VBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_01tm3")
+theme_override_font_sizes/font_size = 60
+text = "<SCORE>"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="DummySpacer" type="TextureRect" parent="VBoxContainer"]
+custom_minimum_size = Vector2(0, 200)
+layout_mode = 2
+
+[node name="LineEdit" type="LineEdit" parent="VBoxContainer"]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_fonts/font = ExtResource("2_01tm3")
+theme_override_font_sizes/font_size = 24
+placeholder_text = "Your name"
+alignment = 1
+
+[node name="Button" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 8
+theme_override_fonts/font = ExtResource("2_01tm3")
+theme_override_font_sizes/font_size = 30
+disabled = true
+shortcut = SubResource("Shortcut_8hrsr")
+text = "Submit score"
+
+[connection signal="text_changed" from="VBoxContainer/LineEdit" to="." method="_on_line_edit_text_changed"]
+[connection signal="text_submitted" from="VBoxContainer/LineEdit" to="." method="_on_line_edit_text_submitted"]
+[connection signal="pressed" from="VBoxContainer/Button" to="." method="_on_button_pressed"]

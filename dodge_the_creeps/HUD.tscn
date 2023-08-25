@@ -1,6 +1,8 @@
-[gd_scene load_steps=4 format=3 uid="uid://ccqoreueuxdb7"]
+[gd_scene load_steps=6 format=3 uid="uid://ccqoreueuxdb7"]
 
 [ext_resource type="Script" path="res://HUD.gd" id="1"]
+[ext_resource type="PackedScene" uid="uid://cho1t5qw6ma6h" path="res://submitScore.tscn" id="2_61xdc"]
+[ext_resource type="PackedScene" uid="uid://l6rc3j5mce5s" path="res://leader_board.tscn" id="3_mui4g"]
 
 [sub_resource type="InputEventAction" id="InputEventAction_fopy7"]
 action = &"start_game"
@@ -50,8 +52,28 @@ theme_override_font_sizes/font_size = 60
 shortcut = SubResource("4")
 text = "Start"
 
+[node name="ResetButton" type="Button" parent="."]
+anchors_preset = -1
+anchor_left = 0.404167
+anchor_top = 0.915278
+anchor_right = 0.595833
+anchor_bottom = 0.958333
+grow_horizontal = 2
+grow_vertical = 0
+size_flags_horizontal = 4
+size_flags_vertical = 4
+text = "Reset Data"
+metadata/_edit_use_anchors_ = true
+
 [node name="MessageTimer" type="Timer" parent="."]
 one_shot = true
 
+[node name="SubmitScore" parent="." instance=ExtResource("2_61xdc")]
+visible = false
+
+[node name="LeaderBoard" parent="." instance=ExtResource("3_mui4g")]
+visible = false
+
 [connection signal="pressed" from="StartButton" to="." method="_on_StartButton_pressed"]
+[connection signal="pressed" from="ResetButton" to="." method="_on_reset_button_pressed"]
 [connection signal="timeout" from="MessageTimer" to="." method="_on_MessageTimer_timeout"]

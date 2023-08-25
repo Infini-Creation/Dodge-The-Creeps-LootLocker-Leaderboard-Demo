@@ -1,0 +1,76 @@
+[gd_scene load_steps=5 format=3 uid="uid://l6rc3j5mce5s"]
+
+[ext_resource type="Script" path="res://leader_board.gd" id="1_soxss"]
+[ext_resource type="FontFile" uid="uid://cit6gwe5px1q8" path="res://fonts/Xolonium-Regular.ttf" id="2_lfpdb"]
+[ext_resource type="Script" path="res://Loading LBData.gd" id="3_00s7n"]
+
+[sub_resource type="Shortcut" id="Shortcut_n2vad"]
+events = [null]
+
+[node name="LeaderBoard" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_soxss")
+
+[node name="Title" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 58.0
+grow_horizontal = 2
+theme_override_fonts/font = ExtResource("2_lfpdb")
+theme_override_font_sizes/font_size = 48
+text = "High-Scores"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Loading LBData" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = 14
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_top = -11.5
+offset_bottom = 11.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("2_lfpdb")
+theme_override_font_sizes/font_size = 32
+text = "Loading high-scores..."
+horizontal_alignment = 1
+vertical_alignment = 1
+script = ExtResource("3_00s7n")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 0.939
+offset_bottom = -0.0800781
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 40
+alignment = 1
+
+[node name="Button" type="Button" parent="."]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -22.5
+offset_top = -31.0
+offset_right = 22.5
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_fonts/font = ExtResource("2_lfpdb")
+theme_override_font_sizes/font_size = 24
+shortcut = SubResource("Shortcut_n2vad")
+text = "Back"
+
+[connection signal="pressed" from="Button" to="." method="_on_button_pressed"]
