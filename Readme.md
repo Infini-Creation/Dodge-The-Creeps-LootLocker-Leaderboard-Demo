@@ -1,1 +1,1 @@
-This is the official Godot 2D tutorial "Dodge The Creeps" game with LootLocker guest login and leaderboardi ntegration
+This is the official _Godot_ 2D tutorial "**Dodge The Creeps**" game with _LootLocker_ _guest login_ feature and leaderboard integration.
