@@ -1,7 +1,7 @@
 extends Node
 
 var PLAYER_DATA : Dictionary = {
-	"Name" : "player",
+	"player_name" : "player",
 	"SessionToken" : "",
 	"player_identifier": "",
 	"public_uid": "",
