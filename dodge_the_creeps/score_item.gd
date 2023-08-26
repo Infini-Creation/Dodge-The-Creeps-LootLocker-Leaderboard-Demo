@@ -5,9 +5,9 @@ extends Control
 @export var Score : int
 
 
-func setup(rank: int, name: String, score : int) -> void:
+func setup(rank: int, playerName: String, score : int) -> void:
 	Rank = rank
-	Name = name
+	Name = playerName
 	Score = score
 	
 

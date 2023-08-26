@@ -57,18 +57,18 @@ func init(): #not in this function => called almost first in the game !!
 		leaderboard_data_loaded.emit()
 		
 		var rank : int = 1
-		var name : String
+		var playerName : String
 		for score in LootLocker.leaderboard.leaderboards["dtc-demo-scores"]:
 			var entry = leaderboard_entry.instantiate()
 			if score["name"] == "":
 				print("name is empty")
 				if score["public_uid"] != "":
-					name = score["public_uid"]
+					playerName = score["public_uid"]
 				else:
 					print("public_uid is empty")
 			else:
-				name = score["name"]
-			entry.setup(rank, name, score["score"])
+				playerName = score["name"]
+			entry.setup(rank, playerName, score["score"])
 			$VBoxContainer.add_child(entry)
 			rank += 1
 	else:
