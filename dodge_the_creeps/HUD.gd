@@ -23,9 +23,8 @@ func show_message(text):
 func show_game_over():
 	show_message("Game Over")
 	await $MessageTimer.timeout
-	$MessageLabel.text = GAME_TITLE
-	$MessageLabel.show()
-	$LeaderBoard.init()
+	#$MessageLabel.text = GAME_TITLE
+	#$MessageLabel.show()
 	await get_tree().create_timer(1.5).timeout
 	
 	$MessageLabel.hide()
@@ -64,6 +63,7 @@ func _on_score_submitted(status : bool) -> void:
 	print("score submitted, st="+str(status))
 	$SubmitScore.hide()
 	$ResetButton.hide()
+	$LeaderBoard.init()
 	$LeaderBoard.show()
 
 
