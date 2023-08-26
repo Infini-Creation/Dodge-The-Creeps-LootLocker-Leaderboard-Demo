@@ -27,6 +27,14 @@ grow_horizontal = 2
 grow_vertical = 2
 alignment = 1
 
+[node name="yourScoreLabel" type="Label" parent="VBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_01tm3")
+theme_override_font_sizes/font_size = 30
+text = "Your score:"
+horizontal_alignment = 1
+vertical_alignment = 1
+
 [node name="Label" type="Label" parent="VBoxContainer"]
 layout_mode = 2
 theme_override_fonts/font = ExtResource("2_01tm3")
@@ -48,6 +56,7 @@ theme_override_fonts/font = ExtResource("2_01tm3")
 theme_override_font_sizes/font_size = 24
 placeholder_text = "Your name"
 alignment = 1
+select_all_on_focus = true
 
 [node name="Button" type="Button" parent="VBoxContainer"]
 layout_mode = 2
@@ -61,4 +70,5 @@ text = "Submit score"
 
 [connection signal="text_changed" from="VBoxContainer/LineEdit" to="." method="_on_line_edit_text_changed"]
 [connection signal="text_submitted" from="VBoxContainer/LineEdit" to="." method="_on_line_edit_text_submitted"]
+[connection signal="visibility_changed" from="VBoxContainer/LineEdit" to="." method="_on_line_edit_visibility_changed"]
 [connection signal="pressed" from="VBoxContainer/Button" to="." method="_on_button_pressed"]
