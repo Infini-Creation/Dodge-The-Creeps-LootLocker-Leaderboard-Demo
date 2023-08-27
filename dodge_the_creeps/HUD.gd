@@ -21,6 +21,7 @@ func show_message(text):
 
 
 func show_game_over():
+	print("==> Game over")
 	show_message("Game Over")
 	await $MessageTimer.timeout
 	#$MessageLabel.text = GAME_TITLE
@@ -32,14 +33,6 @@ func show_game_over():
 	$SubmitScore.show()
 	$SubmitScore.set_score(score)
 	
-	#wait or signal to second/last part of game_over (SB show below)
-	#here first show submit score panel
-	
-	#get submit score ok
-	#display leader_board scene
-	
-	
-	
 	#await get_tree().create_timer(5).timeout #tmp
 	#$StartButton.show()
 
@@ -50,6 +43,8 @@ func update_score(new_score):
 
 
 func _on_StartButton_pressed():
+	print("==> start button pressed")
+	$ScoreLabel.show()
 	$StartButton.hide()
 	$ResetButton.hide()
 	start_game.emit()
@@ -60,7 +55,7 @@ func _on_MessageTimer_timeout():
 
 
 func _on_score_submitted(status : bool) -> void:
-	print("score submitted, st="+str(status))
+	print("==> score submitted, st="+str(status))
 	$SubmitScore.hide()
 	$ResetButton.hide()
 	$LeaderBoard.init()
@@ -68,7 +63,7 @@ func _on_score_submitted(status : bool) -> void:
 
 
 func _on_comeback() -> void:
-	print("get back in the game")
+	print("==> get back in the game")
 	$LeaderBoard.hide()
 	$MessageLabel.text = GAME_TITLE
 	$MessageLabel.show()
