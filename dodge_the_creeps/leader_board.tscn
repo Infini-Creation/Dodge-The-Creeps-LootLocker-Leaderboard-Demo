@@ -1,11 +1,14 @@
-[gd_scene load_steps=5 format=3 uid="uid://l6rc3j5mce5s"]
+[gd_scene load_steps=6 format=3 uid="uid://l6rc3j5mce5s"]
 
 [ext_resource type="Script" path="res://leader_board.gd" id="1_soxss"]
 [ext_resource type="FontFile" uid="uid://cit6gwe5px1q8" path="res://fonts/Xolonium-Regular.ttf" id="2_lfpdb"]
 [ext_resource type="Script" path="res://Loading LBData.gd" id="3_00s7n"]
 
+[sub_resource type="InputEventAction" id="InputEventAction_hhx5v"]
+action = &"start_game"
+
 [sub_resource type="Shortcut" id="Shortcut_n2vad"]
-events = [null]
+events = [SubResource("InputEventAction_hhx5v")]
 
 [node name="LeaderBoard" type="Control"]
 layout_mode = 3
