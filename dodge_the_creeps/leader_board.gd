@@ -29,9 +29,12 @@ func init():
 	if LootLocker.leaderboard.leaderboards.size() > 0:
 		leaderboard_data_loaded.emit()
 		
+		# if LootLocker.leaderboard.leaderboards.size() > 10:
+		# short version +/- 3 around player
+		#else:
 		var rank : int = 1
 		var playerName : String
-		for score in LootLocker.leaderboard.leaderboards["dtc-demo-scores"]:
+		for score in LootLocker.leaderboard.leaderboards[Global.LEADERBOARD_KEY]:
 			var entry = leaderboard_entry.instantiate()
 			if score["name"] == "":
 				print("name is empty")

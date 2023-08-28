@@ -49,7 +49,8 @@ func _ready():
 		
 		#this should be done for us (see SDK code)
 		LootLocker.leaderboard.session_token = LootLocker.session.token
-		LootLocker.leaderboard.leaderboard_key = "dtc-demo-scores" #or id 16636 => save in sdk data
+		#LootLocker.leaderboard.leaderboard_key = "dtc-demo-scores" #or id 16636 => save in sdk data
+		LootLocker.leaderboard.leaderboard_key = Global.LEADERBOARD_KEY
 	else:
 		print("ERROR ! Not logged in")
 
