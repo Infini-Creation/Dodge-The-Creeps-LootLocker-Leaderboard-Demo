@@ -7,13 +7,6 @@ extends Node
 var score
 var do_not_save_data : bool = false
 
-# make it global ?
-#load/save here, but name/token for HUD/submitscore scene
-#var PLAYER_DATA : Dictionary = {
-	#"Name" : "player",
-	#"SessionToken" : "",
-	#"_dirty" : []
-#}
 var ignore_first_close_notification : bool = true
 
 signal player_data_saved
@@ -29,14 +22,11 @@ func _ready():
 	get_tree().set_auto_accept_quit(false)
 	player_data_saved.connect(_on_data_saved)
 	$HUD.do_no_save_data_on_exit.connect(_on_dontsave_received)
-	#self.tree_exiting.connect(save_player_data)
-	#load saved playername + session token if exist/player id
-	#PLAYER_DATA = 
+
 	load_player_data()
 	
 	print("data="+str(Global.PLAYER_DATA))
-	
-	##get_tree().quit()
+
 	var lok = LootLockerDataVault.load_sdk_data()
 	print("lok ="+str(lok))
 	#setupfromfile should be use to don't need to deal with this ourselves
@@ -146,16 +136,14 @@ func _on_StartTimer_timeout():
 
 
 func load_player_data() -> void :
-	#var data : Dictionary = {}
 	var data_read : String
 	
 	if !FileAccess.file_exists("user://dtc.data"):
-		return #{}
+		return
 
 	var file = FileAccess.open("user://dtc.data", FileAccess.READ)
 	if file != null:
 		for item in Global.PLAYER_DATA:
-			#data[item] 
 			data_read = file.get_pascal_string ()
 			print("load_player_data: "+item+"="+data_read)
 			if data_read != "":
@@ -163,8 +151,6 @@ func load_player_data() -> void :
 		file.close()
 	else:
 		print("Error opening file: "+str(file.get_error()))
-
-	#return data
 
 
 func save_player_data():

@@ -1,18 +1,11 @@
 extends Control
 
-#@onready var playerName : String = ""
 @onready var Score : int
-#signal player_name_changed(newName: String)
 signal score_submitted(status: bool)
  
 func _ready():
-	print("submit score: _ready called")
-	#lineedit not initialised with right value !  calledoo early (too)
-	#print("=>> pn="+Global.PLAYER_DATA["player_name"])
-	#$VBoxContainer/LineEdit.text = Global.PLAYER_DATA["player_name"]
-	#if $VBoxContainer/LineEdit.text != "":
-		#$VBoxContainer/Button.disabled = false
-
+	pass
+	#print("submit score: _ready called")
 
 func set_score(score : int) -> void:
 	$VBoxContainer/Label.text = str(score)
@@ -41,11 +34,6 @@ func _on_button_pressed():
 		print("Error, score may be not submitted !")
 		
 	score_submitted.emit(result == OK)
-	
-	#if playerName != "":
-		#player_name_changed.emit(playerName)
-
-	##$VBoxContainer.hide()
 
 
 func _on_line_edit_text_submitted(new_text : String):

@@ -1,6 +1,5 @@
 extends Control
 
-#var MainScreen : PackedScene = preload("res://Main.tscn")
 var leaderboard_entry : PackedScene = preload("res://score_item.tscn")
 
 @export var submitted_score : int
@@ -8,28 +7,8 @@ var leaderboard_entry : PackedScene = preload("res://score_item.tscn")
 signal leaderboard_data_loaded
 signal back_to_the_game
 
-func init(): #not in this function => called almost first in the game !!
-	#var lok = LootLockerDataVault.load_sdk_data()
-	#print("lok ="+str(lok))
-	#LootLocker.setup(LootLockerDataVault.API_KEY, LootLockerDataVault.DOMAIN_KEY, LootLockerDataVault.GAME_VERSION, true, true)
-	#print("logging in...")
-	#var result = await LootLocker.guest_login(Global.PLAYER_DATA["player_identifier"])
-	#print("Res="+str(result))
-	#if result == OK:
-		#print("logged in, sessionT="+LootLocker.session.token)
-		#print("PLayerID="+LootLocker.current_user.PLAYERSDATA["player_identifier"])
-		#print("PLayerName="+LootLocker.current_user.PLAYERSDATA["player_name"])
-		#Global.PLAYER_DATA["player_identifier"] = LootLocker.current_user.PLAYERSDATA["player_identifier"]
-		#Global.PLAYER_DATA["player_id"] = LootLocker.current_user.PLAYERSDATA["player_id"]
-		#Global.PLAYER_DATA["public_uid"] = LootLocker.current_user.PLAYERSDATA["public_uid"]
-		#Global.PLAYER_DATA["SessionToken"] = LootLocker.session.token
-#
-		#LootLocker.leaderboard.session_token = LootLocker.session.token
-		#LootLocker.leaderboard.leaderboard_key = "dtc-demo-scores" #or id 16636 => save in sdk data
-#
+func init():
 	leaderboard_data_loaded.connect(_on_lbdata_loaded)
-	#else:
-		#print("ERROR ! Not logged in")
 
 	#get the 1st three + -2,+2 around the player
 	#			get layer rank 1st
@@ -37,19 +16,13 @@ func init(): #not in this function => called almost first in the game !!
 	#still before that change result returned by get leaderboard to take rank as well
 	print("get leaderboard data")
 	
-	#diplay a loading text (maybe blinking while LB data not available)
-	
-	# on init, anim is not smooh at all
-	#await get_tree().create_timer(5).timeout
-	
 	#top 3 + -1/+1 rank of current score
 	var result = await LootLocker.leaderboard.get_leaderboard()
 	print("Res="+str(result))
 
 	#loading anim slow because synchronous call, UI stuck while request is issuing !!
 	## need async mode => test
-	##await get_tree().create_timer(5).timeout
-	
+
 	print("LB here="+str(LootLocker.leaderboard.leaderboards))
 	
 	#here get rid of rank when they'll be returned with result as they should
