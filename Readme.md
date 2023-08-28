@@ -15,3 +15,7 @@ And finally the leaderboard page:
 
 it shows here a lot of _player_uid_, used because no names has been set for these players (many test runs done while working on it)
 This version is still WIP as it will be replaced by this view IF there are no more than ten scores already registered, or a view of the first three and the player rank as well as the two above and below the score.
+
+## setup
+### LootLocker SDK
+### leaderboard (to have you own)
