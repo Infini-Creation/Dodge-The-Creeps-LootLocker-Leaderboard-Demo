@@ -77,6 +77,9 @@ func init(): #not in this function => called almost first in the game !!
 
 func _on_button_pressed():
 	#eventually cancel request
+	for child_item in $VBoxContainer.get_children():
+		$VBoxContainer.remove_child(child_item)
+		child_item.queue_free()
 	back_to_the_game.emit()
 
 
