@@ -17,16 +17,16 @@ func init():
 	print("get leaderboard data")
 	
 	#top 3 + -1/+1 rank of current score
-	var result = await LootLocker.leaderboard.get_leaderboard()
+	var result = await LootLocker.leaderboard.get_leaderboard({})
 	print("Res="+str(result))
 
 	#loading anim slow because synchronous call, UI stuck while request is issuing !!
 	## need async mode => test
 
-	print("LB here="+str(LootLocker.leaderboard.leaderboards))
+	print("LB here="+str(LootLocker.leaderboard.data["scores"]))
 	
 	#here get rid of rank when they'll be returned with result as they should
-	if LootLocker.leaderboard.leaderboards.size() > 0:
+	if LootLocker.leaderboard.data["scores"].size() > 0:
 		leaderboard_data_loaded.emit()
 		
 		# if LootLocker.leaderboard.leaderboards.size() > 10:
@@ -34,7 +34,7 @@ func init():
 		#else:
 		var rank : int = 1
 		var playerName : String
-		for score in LootLocker.leaderboard.leaderboards[Global.LEADERBOARD_KEY]:
+		for score in LootLocker.leaderboard.data["scores"]:
 			var entry = leaderboard_entry.instantiate()
 			if score["name"] == "":
 				print("name is empty")

@@ -47,10 +47,8 @@ func _ready():
 		Global.PLAYER_DATA["public_uid"] = LootLocker.current_user.PLAYERSDATA["public_uid"]
 		Global.PLAYER_DATA["SessionToken"] = LootLocker.session.token
 		
-		#this should be done for us (see SDK code)
-		LootLocker.leaderboard.session_token = LootLocker.session.token
-		#LootLocker.leaderboard.leaderboard_key = "dtc-demo-scores" #or id 16636 => save in sdk data
-		LootLocker.leaderboard.leaderboard_key = Global.LEADERBOARD_KEY
+		LootLocker.add_leaderboard({"key": Global.LEADERBOARD_KEY, "session-token": LootLocker.session.token})
+
 	else:
 		print("ERROR ! Not logged in")
 
