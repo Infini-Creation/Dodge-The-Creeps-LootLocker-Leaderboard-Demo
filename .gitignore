@@ -1,3 +1,7 @@
 .import
 .godot
 logs/
+*.exe
+*.x86_64
+*.pck
+*.zip
