@@ -11,3 +11,7 @@ var PLAYER_DATA : Dictionary = {
 
 #"dtc-demo-scores"
 const LEADERBOARD_KEY : String = "DTC-LB-min"
+
+const SAVEDIR : String = "user://"
+const FILENAME : String = "dtc.data"
+const SAVEFILE : String = SAVEDIR + FILENAME
