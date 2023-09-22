@@ -12,9 +12,11 @@ var leaderboard
 func _ready():
 	$SubmitScore.score_submitted.connect(_on_score_submitted)
 	$LeaderBoard.back_to_the_game.connect(_on_comeback)
+	#$DebugLabel.text = str(Global.PLAYER_DATA)
 
 
 func show_message(text):
+	$DebugLabel.text = str(Global.PLAYER_DATA)
 	$MessageLabel.text = text
 	$MessageLabel.show()
 	$MessageTimer.start()
@@ -72,12 +74,19 @@ func _on_comeback() -> void:
 
 
 func _on_reset_button_pressed():
+	#maybe doesn't work in itch.io
+	#LootLocker.session.end_session(LootLocker.session.token)
+	#for item in Global.PLAYER_DATA:
+		#Global.PLAYER_DATA[item] = ""
+	Global.logout()
+	Global.clear_player_data()
+
 	print("Reset saved player data")
 	#later? add confirm popup Y/N
-	do_no_save_data_on_exit.emit()
-	var dir = DirAccess.open("user://")
+	#do_no_save_data_on_exit.emit()
+	var dir = DirAccess.open(Global.SAVEDIR)
 	if dir != null:
-		var error = dir.remove("dtc.data")
+		var error = dir.remove(Global.FILENAME)
 		if error != OK:
 			print("Failed to delete data file: "+str(error))
 		else:
@@ -85,3 +94,8 @@ func _on_reset_button_pressed():
 		#need a way to prevent game to save data back on exit !
 	else:
 		print("Failed to open user data directory: "+str(DirAccess.get_open_error()))
+
+
+func _on_submit_score_visibility_changed():
+	if $SubmitScore.visible == true:
+		$SubmitScore.update_player_puid()
