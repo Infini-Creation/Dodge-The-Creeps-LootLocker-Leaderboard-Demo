@@ -7,6 +7,9 @@ func _ready():
 	pass
 	#print("submit score: _ready called")
 
+func update_player_puid():
+	$VBoxContainer/playerUID.text = Global.PLAYER_DATA["public_uid"]
+
 func set_score(score : int) -> void:
 	$VBoxContainer/Label.text = str(score)
 	Score = score
@@ -18,6 +21,8 @@ func _on_button_pressed():
 	
 	if LootLocker.current_user.PLAYERSDATA["player_name"] == "" or LootLocker.current_user.PLAYERSDATA["player_name"] != Global.PLAYER_DATA["Name"]:
 		print("update player's name")
+		# + save name in file
+		Global.save_player_data()
 		result = await LootLocker.current_user.set_player_name(Global.PLAYER_DATA["Name"])
 		if result == OK:
 			print("player's name set successfully")
