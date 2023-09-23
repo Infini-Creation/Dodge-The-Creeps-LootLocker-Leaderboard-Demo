@@ -1,6 +1,7 @@
 extends Control
 
 var leaderboard_entry : PackedScene = preload("res://score_item.tscn")
+var initialised : bool = false
 
 @export var submitted_score : int
 
@@ -8,7 +9,11 @@ signal leaderboard_data_loaded
 signal back_to_the_game
 
 func init():
-	leaderboard_data_loaded.connect(_on_lbdata_loaded)
+	$Debug.text = "init..."
+	if initialised == false:
+		#error signal already connected !
+		leaderboard_data_loaded.connect(_on_lbdata_loaded)
+		initialised = true
 
 	#get the 1st three + -2,+2 around the player
 	#			get layer rank 1st
@@ -17,6 +22,8 @@ func init():
 	print("get leaderboard data")
 	
 	#top 3 + -1/+1 rank of current score
+	#if total <= 10: get all scores
+	# else: scores around player (+/- 3 or 4)
 	var result = await LootLocker.leaderboard.get_leaderboard({})
 	print("Res="+str(result))
 
@@ -32,8 +39,11 @@ func init():
 		# if LootLocker.leaderboard.leaderboards.size() > 10:
 		# short version +/- 3 around player
 		#else:
-		var rank : int = 1
+		#var rank : int = 1	#must use the one from LL for score around player and crowded lb
 		var playerName : String
+		var color : Color
+
+		$Debug.text = "color "
 		for score in LootLocker.leaderboard.data["scores"]:
 			var entry = leaderboard_entry.instantiate()
 			if score["name"] == "":
@@ -44,9 +54,18 @@ func init():
 					print("public_uid is empty")
 			else:
 				playerName = score["name"]
-			entry.setup(rank, playerName, score["score"])
+
+			if score["rank"] == LootLocker.leaderboard.last_submitted_score_rank:
+				color = Color.DARK_TURQUOISE
+				$Debug.text += "DT"
+			else:
+				color = Color.WHITE
+				$Debug.text += "w"
+
+			entry.setup(score["rank"], playerName, score["score"])
+			entry.highlight_entry(color)
 			$VBoxContainer.add_child(entry)
-			rank += 1
+			#rank += 1
 	else:
 		pass
 
