@@ -1,3 +1,11 @@
+; Engine configuration file.
+; It's best edited using the editor UI and not directly,
+; since the parameters that go here are not all obvious.
+;
+; Format:
+;   [section] ; section goes between []
+;   param=value ; assign values to parameters
+
 config_version=5
 
 [application]
@@ -12,6 +20,7 @@ following the tutorial in the documentation."
 config/tags=PackedStringArray("2d", "demo", "lootlocker", "official")
 run/main_scene="res://Main.tscn"
 config/features=PackedStringArray("4.2")
+run/low_processor_mode=true
 config/icon="res://icon.webp"
 
 [autoload]
@@ -22,6 +31,8 @@ Constants="*res://addons/LootLocker-SDK/Constants.gd"
 
 [debug]
 
+file_logging/enable_file_logging=true
+file_logging/max_log_files=8
 gdscript/warnings/redundant_await=false
 
 [display]
