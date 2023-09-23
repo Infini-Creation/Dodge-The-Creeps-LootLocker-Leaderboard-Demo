@@ -34,9 +34,6 @@ func show_game_over():
 	$ScoreLabel.hide()
 	$SubmitScore.show()
 	$SubmitScore.set_score(score)
-	
-	#await get_tree().create_timer(5).timeout #tmp
-	#$StartButton.show()
 
 
 func update_score(new_score):
@@ -74,10 +71,6 @@ func _on_comeback() -> void:
 
 
 func _on_reset_button_pressed():
-	#maybe doesn't work in itch.io
-	#LootLocker.session.end_session(LootLocker.session.token)
-	#for item in Global.PLAYER_DATA:
-		#Global.PLAYER_DATA[item] = ""
 	Global.logout()
 	Global.clear_player_data()
 

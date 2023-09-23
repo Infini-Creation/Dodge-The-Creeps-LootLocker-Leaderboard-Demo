@@ -13,8 +13,7 @@ var PLAYER_DATA : Dictionary = {
 	"SessionToken" : "",
 	"player_identifier": "",
 	"public_uid": "",
-	"player_id": "",
-	"_dirty" : []
+	"player_id": ""
 }
 
 var logged_in : bool = false
@@ -47,7 +46,6 @@ func save_player_data(do_not_save_data : bool = false):
 			for item in PLAYER_DATA:
 				if item != "_dirty":
 					print("save item "+item+"="+str(PLAYER_DATA[item]))
-					#if PLAYER_DATA[item] != "": #should check updated flag (to add)
 					file.store_pascal_string (str(PLAYER_DATA[item]))
 					if file.get_error():
 						print("Error storing data ["+item+"]: "+str(file.get_error()))
@@ -56,7 +54,6 @@ func save_player_data(do_not_save_data : bool = false):
 			print("Error opening file: "+str(file.get_error()))
 			
 	print("spd completed")
-	#player_data_saved.emit()
 
 
 func clear_player_data():

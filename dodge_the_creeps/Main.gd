@@ -7,18 +7,10 @@ extends Node
 var score
 var do_not_save_data : bool = false
 
-#var ignore_first_close_notification : bool = true
-
-#signal player_data_saved
-
 
 func _ready():
 	print("ready called")
 	$MobTimer.wait_time = default_mob_time
-	
-	#get_tree().set_auto_accept_quit(false)
-	#player_data_saved.connect(_on_data_saved)
-	#$HUD.do_no_save_data_on_exit.connect(_on_dontsave_received)
 
 	Global.load_player_data()
 	
@@ -30,55 +22,7 @@ func _ready():
 	#setupfromfile should be use to don't need to deal with this ourselves
 	#LootLocker.setup(LootLockerDataVault.API_KEY, LootLockerDataVault.DOMAIN_KEY, LootLockerDataVault.GAME_VERSION, true, true)
 
-	#load/save => easy: load data = something ? Y => replace default
-		#then save on exit (old value or new one, like session after is exists
-
 	Global.login()
-	#print("logging in...")
-		##input here should be player id (long like bd5d5d12-0cd7-429a-9175-d04406a97eea)
-	#var result = await LootLocker.guest_login(Global.PLAYER_DATA["player_identifier"])
-	#if result == OK:
-		#print("logged in, sessionT="+LootLocker.session.token)
-		#print("PLayerID="+LootLocker.current_user.PLAYERSDATA["player_identifier"])
-		#print("PLayerName="+LootLocker.current_user.PLAYERSDATA["player_name"])
-		#Global.PLAYER_DATA["player_identifier"] = LootLocker.current_user.PLAYERSDATA["player_identifier"]
-		#Global.PLAYER_DATA["player_id"] = LootLocker.current_user.PLAYERSDATA["player_id"]
-		#Global.PLAYER_DATA["public_uid"] = LootLocker.current_user.PLAYERSDATA["public_uid"]
-		#Global.PLAYER_DATA["SessionToken"] = LootLocker.session.token
-#
-		#Global.save_player_data()
-#
-		#LootLocker.add_leaderboard({"key": Global.LEADERBOARD_KEY, "session-token": LootLocker.session.token})
-#
-	#else:
-		#print("ERROR ! Not logged in")
-
-#func _notification(what):
-	#if what == NOTIFICATION_WM_CLOSE_REQUEST:
-			#print("WM close req notif")
-			#print("action...")
-#
-			#call_deferred("queue_free")
-#
-			#print("_notification wait...")
-			#await get_tree().create_timer(1).timeout #tmp  without it, nothing output after "_input wait"
-				##with it, "spd called" then... nothing
-			#print("_notification delay completed, quit") #<= never reached ??
-#
-			#get_tree().quit()
-#
-
-#func _input(event):
-	#if event.is_action_pressed("quit"):
-		#print("quit action")
-		
-		#print("_input wait...")
-		#await get_tree().create_timer(2).timeout #tmp
-		#print("_input delay completed, send notif")
-#
-		##this get very quick and prevent previous statement to be "seen"
-		#get_tree().root.propagate_notification(NOTIFICATION_WM_CLOSE_REQUEST)
-		#pass
 
 
 func game_over():
@@ -146,17 +90,6 @@ func _on_StartTimer_timeout():
 #	 less mobs spwaned (mobitmer increased)
 #	tinier mobs
 
-#no called cause close window = "hard kill" maybe, try to add some get_tree().exit_tree
-#func _on_tree_exiting():
-	#print("_on_tree_exiting")
-	#save_player_data()
-	
-#func _exit_tree():
-	#print("_exit_tree called")
-
-#func _on_data_saved():
-	#print("data saved, quit")
-	#get_tree().quit()
 
 func _on_dontsave_received():
 	print("data won't be saved on exit")

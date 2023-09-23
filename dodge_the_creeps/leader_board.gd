@@ -11,7 +11,6 @@ signal back_to_the_game
 func init():
 	$Debug.text = "init..."
 	if initialised == false:
-		#error signal already connected !
 		leaderboard_data_loaded.connect(_on_lbdata_loaded)
 		initialised = true
 
@@ -31,15 +30,14 @@ func init():
 	## need async mode => test
 
 	print("LB here="+str(LootLocker.leaderboard.data["scores"]))
-	
-	#here get rid of rank when they'll be returned with result as they should
+
 	if LootLocker.leaderboard.data["scores"].size() > 0:
 		leaderboard_data_loaded.emit()
 		
 		# if LootLocker.leaderboard.leaderboards.size() > 10:
 		# short version +/- 3 around player
 		#else:
-		#var rank : int = 1	#must use the one from LL for score around player and crowded lb
+
 		var playerName : String
 		var color : Color
 
@@ -65,7 +63,6 @@ func init():
 			entry.setup(score["rank"], playerName, score["score"])
 			entry.highlight_entry(color)
 			$VBoxContainer.add_child(entry)
-			#rank += 1
 	else:
 		pass
 
