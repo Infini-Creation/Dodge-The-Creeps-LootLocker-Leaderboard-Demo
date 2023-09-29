@@ -12,9 +12,18 @@ func setup(rank: int, playerName: String, score : int) -> void:
 
 
 func _ready():
-	$HBoxContainer/Rank.text = str(Rank)
+	if Rank > 0:
+		$HBoxContainer/Rank.text = str(Rank)
+	else:
+		$HBoxContainer/Rank.text = " "
+
+	if Score > 0:
+		$HBoxContainer/Score.text = str(Score)
+	else:
+		$HBoxContainer/Score.text = " "
+
 	$HBoxContainer/Name.text = Name
-	$HBoxContainer/Score.text = str(Score)
+	
 
 
 func highlight_entry(color: Color) -> void:
