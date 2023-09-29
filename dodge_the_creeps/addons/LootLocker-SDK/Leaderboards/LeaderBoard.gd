@@ -4,13 +4,17 @@ class_name LootLockerLeaderBoard
 #const LEADERBOARDS_URL = LootLocker.LOOTLOCKER_API_BASE_URL + "game/leaderboards/"
 	#+leaderboard_key+"/list?count=10"
 
+const DEFAULT_SIZE : int = 10
+const DEFAULT_DATASET : String = "scores"
+const SCORES_AROUND_PLAYERS_RANK : String = "around"
+
 @export var session_token : String = ""
 @export var player : LootLockerPlayer
 @export var leaderboard_key : String = ""
 @export var leaderboard_id : String = ""
 #one object = one LB, this should be better !
 
-var data : Dictionary = {}
+var data : Dictionary
 var last_submitted_score_rank : int = -1
 var top_scores = {}
 var scores_around_player = {}
@@ -54,6 +58,7 @@ func init(args : Dictionary) -> int:
 	
 	#maybe a call from LeadeeBoards class to hide what's inside ! (init_lb() )
 	data = {"idk": idk, "total": -1, "scores": []}
+	data["scores"].resize(DEFAULT_SIZE)
 	
 	return status
 
@@ -65,6 +70,17 @@ func check_key():
 	else:
 		print("[check_key]: ok")
 		return OK
+
+#to report to main repo !!
+func total():
+	var total : int = -1
+
+	if data != null and data.size() > 0:
+		if data.has("total"):
+			total = data["total"]
+	
+	return total
+
 
 #func token(token : String):
 	#session_token = token
@@ -88,10 +104,17 @@ func get_leaderboard(args : Dictionary) -> int:
 
 	var headers : Array = ["Content-Type: application/json"]
 
+	if !args.has("pagination_cursor"):
+		args["pagination_cursor"] = 1
 	if !args.has("count"):
 		args["count"] = 10
 	if !args.has("after"):
 		args["after"] = -1
+	if !args.has("storage"):
+		args["storage"] = DEFAULT_DATASET
+	else:
+		if args["storage"] != DEFAULT_DATASET and args["storage"] != SCORES_AROUND_PLAYERS_RANK:
+			args["storage"] = DEFAULT_DATASET
 
 	if session_token != "":
 		headers.append("x-session-token: "+session_token)
@@ -128,31 +151,34 @@ func get_leaderboard(args : Dictionary) -> int:
 
 		if result.has("items"):
 			print("fill local data with items regardless of pagination")
-			data["scores"] = Array()
+			#data["scores"] = Array()
+			if result["items"].size() > DEFAULT_SIZE:
+				data[args["storage"]].resize(result["items"].size())
+
 			var arrayIdx = 0
 			
 			#"highlight" current player rank in results
 			# rank is the index of the returned array, 1st item idx 0 = rk 1...
 			# ONLY for first page, after that rank = idx + delta !
-			data["scores"].resize(result["items"].size())
+
 			for item in result["items"]:
 				print("process item"+str(item))
 				if item.has("rank"):
-					data["scores"][arrayIdx] = Dictionary()
+					data[args["storage"]][arrayIdx] = Dictionary()
 				if item.has("score"):
-					data["scores"][arrayIdx]["score"] = int(item["score"])
+					data[args["storage"]][arrayIdx]["score"] = int(item["score"])
 				if item.has("player") and typeof(item["player"]) == TYPE_DICTIONARY and item["player"].size() > 0:
-					data["scores"][arrayIdx]["rank"] = item["rank"]
+					data[args["storage"]][arrayIdx]["rank"] = item["rank"]
 					#if item["player"].has("name") and item["player"]["name"] != "":
-					data["scores"][arrayIdx]["name"] = item["player"]["name"]
+					data[args["storage"]][arrayIdx]["name"] = item["player"]["name"]
 					#if item["player"].has("public_uid") and item["player"]["public_uid"] != "":
-					data["scores"][arrayIdx]["public_uid"] = item["player"]["public_uid"]
+					data[args["storage"]][arrayIdx]["public_uid"] = item["player"]["public_uid"]
 					#print("id type="+str(typeof(item["player"]["id"])))
 					#if item["player"].has("id") and item["player"]["id"] != null:
-					data["scores"][arrayIdx]["id"] = item["player"]["id"]
+					data[args["storage"]][arrayIdx]["id"] = item["player"]["id"]
 					print("id type="+str(typeof(item["metadata"])))
 					#if item.has("metadata") and item["metadata"] != "":
-					data["scores"][arrayIdx]["metadata"] = item["metadata"]
+					data[args["storage"]][arrayIdx]["metadata"] = item["metadata"]
 				arrayIdx += 1
 
 	print("[get_leaderboard]: LB="+str(data))
@@ -196,10 +222,11 @@ func get_top_scores(count : int = 3) -> int:
 	return status
 
 
-func get_scores_around_player(countBefore : int = 2, countAfter : int = countBefore) -> int:
+#count : int = 3, countBefore : int = 3, countAfter : int = countBefore
+func get_scores_around_player(args : Dictionary = {}) -> int:
 	var status : int = OK
 	print("[get_scores_around_player]: begin")
-	LootLockerHelpers.dump_args({"countBefore": countBefore, "countAfter": countAfter})
+	LootLockerHelpers.dump_args(args)
 
 	var ckr = check_key()
 	if ckr != OK:
@@ -217,6 +244,16 @@ func get_scores_around_player(countBefore : int = 2, countAfter : int = countBef
 		print("[get_scores_around_player]: player instance not yet initialized")
 		status = ERR_UNCONFIGURED
 		return ERR_UNCONFIGURED
+
+	if args.size() > 0:
+		if !args.has("countBefore"):
+			args["countBefore"] = 3
+		if !args.has("countAfter"):
+			args["countAfter"] = 3
+
+	# add how many to keep from scores
+	# replace scores with those around player's rank
+	# resize array if needed !
 
 	#curl -X GET "https://api.lootlocker.io/game/leaderboards/1/member/1" lastp = player_id
 	print("[get_scores_around_player]: get player's rank 1st")
@@ -241,25 +278,62 @@ func get_scores_around_player(countBefore : int = 2, countAfter : int = countBef
 	
 	#+ if rank = 1 or less than countBefore ? (cb=3 and rk= 2 for instance)
 	#do this ONLY if leaderboard contains enough scores !
-	var count = countBefore + countAfter + 1
+	var count = args["countBefore"] + args["countAfter"] + 1
 	
 	#need lb here! or just count
 	if data.size() > 0:
+		print("data s > 0")
 		if data.has("total"):
+			print("total is set")
+			data["around"] = []
+			data["around"].resize(count)
+			
 			if data["total"] < count:
+				print("total["+str(data["total"])+"] < count ["+str(count)+"]")
 				print("[get_scores_around_player]: there is not enough scores yet in leaderboard: "+str(count)+"/"+str(data["total"]))
-				## at least return some useful data !!
-				#status = ERR_UNAVAILABLE
-				result = await get_leaderboard({"pagination_cursor": 1})
+				
+				# not needed if data already fetched before !
+				##result = await get_leaderboard({}) #"pagination_cursor": 1
+				
+				# fill around data with already fetched leaderboard data
+				data["around"] = data["scores"]
 			else:
-				var after : int = result["rank"] - ceili(count / 2.0)
-		#rk=8 c=6 aft=7 ??
-		#	should be 5  rk-3 rk+3
-		#	but here cb/ca = 2 => cb+ca=4 => rk-2,rk+2
-				print("rk="+str(result["rank"])+"  c="+str(count)+" cb/2="+str(ceili(countBefore / 2.0))+ "  aft="+str(after))
-				print("=============get scores around player rank==============")
-				result = await get_leaderboard({"pagination_cursor": 1, "count": count, "after": after})
+				print("total["+str(data["total"])+"] > count ["+str(count)+"]")
 
+				var after : int
+				
+				#
+				if result["rank"] <= args["countBefore"]:
+					print("player's rank <= CB")
+				else:
+					print("player's rank > CB")
+					after = result["rank"] - ceili(count / 2.0)
+					print("after="+str(after))
+					print("rk="+str(result["rank"])+"  c="+str(count)+" c/2="+str(ceili(count / 2.0))+ "  aft="+str(after))
+					print("=============get scores around player rank==============")
+					result = await get_leaderboard({"pagination_cursor": 1, "count": count, "after": after, "storage": "around"})
+			# compare total vs cb+ca+1
+			# less or more ?
+			
+			#if result["rank"] <= args["countBefore"]:
+				#after = 1
+				#count = args["countBefore"] + args["countAfter"] + 1 #same as above ???
+			#else:
+				#
+#
+			#if after < 0:
+				#print("after is negative !")
+				###after = countBefore + countAfter
+				##shift after to 1- -before+before (ex -3+3 => 1-6)
+		##rk=8 c=6 aft=7 ??
+		##	should be 5  rk-3 rk+3
+		##	but here cb/ca = 2 => cb+ca=4 => rk-2,rk+2
+				
+			#else:
+				#print("after > 0")
+		else:
+			print("total is not set yet (???)")
+	#put data somewhere !!
 	print("[get_scores_around_player]: end")
 	
 	return status
