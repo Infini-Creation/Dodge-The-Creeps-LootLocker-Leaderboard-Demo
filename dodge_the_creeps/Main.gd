@@ -16,11 +16,8 @@ func _ready():
 	
 	print("data="+str(Global.PLAYER_DATA))
 
-	LootLocker.setup("dev_529b11593cd64732b9c97123913e2ee2", "e6m82yag", "0.0.0.1", true)
-	#var lok = LootLockerDataVault.load_sdk_data()
-	#print("lok ="+str(lok))
-	#setupfromfile should be use to don't need to deal with this ourselves
-	#LootLocker.setup(LootLockerDataVault.API_KEY, LootLockerDataVault.DOMAIN_KEY, LootLockerDataVault.GAME_VERSION, true, true)
+	var lok = LootLockerDataVault.load_sdk_data()
+	LootLocker.setup(LootLockerDataVault.API_KEY, LootLockerDataVault.DOMAIN_KEY, LootLockerDataVault.GAME_VERSION, true, true)
 
 	Global.login()
 
