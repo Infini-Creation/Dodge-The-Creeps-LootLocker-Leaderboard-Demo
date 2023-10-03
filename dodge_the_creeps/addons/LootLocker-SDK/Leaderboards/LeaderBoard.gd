@@ -292,8 +292,10 @@ func get_scores_around_player(args : Dictionary = {}) -> int:
 				print("total["+str(data["total"])+"] < count ["+str(count)+"]")
 				print("[get_scores_around_player]: there is not enough scores yet in leaderboard: "+str(count)+"/"+str(data["total"]))
 				
-				# not needed if data already fetched before !
-				##result = await get_leaderboard({}) #"pagination_cursor": 1
+				if data["total"] == -1:
+					print("no data available, get LB")
+					result = await get_leaderboard({})
+					print("res="+str(result))
 				
 				# fill around data with already fetched leaderboard data
 				data["around"] = data["scores"]
