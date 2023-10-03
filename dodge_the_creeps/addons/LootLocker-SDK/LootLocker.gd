@@ -91,11 +91,11 @@ func setup_from_file() -> void:
 	#DOMAIN_KEY = LootLockerDataVault.load_from_userfile("DOMAIN_KEY")
 	#GAME_VERSION = LootLockerDataVault.load_from_userfile("GAME_VERSION")
 	#DEV_MODE = LootLockerDataVault.load_from_userfile("DEV_MODE")
-	API_KEY = LootLockerDataVault.API_KEY
+	API_KEY = LootLockerDataVault.GAME_API_KEY
 	DOMAIN_KEY = LootLockerDataVault.DOMAIN_KEY
 	GAME_VERSION = LootLockerDataVault.GAME_VERSION
-	#DEV_MODE = LootLockerDataVault.DEV_MODE
-	#synchronous = synchronous_mode
+	DEV_MODE = LootLockerDataVault.DEV_MODE
+	synchronous = LootLockerDataVault.SYNCHRONOUS_MODE
 	
 	if API_KEY == null or DOMAIN_KEY == null:
 		print("API_KEY or DOMAIN_KEY not defined !")
