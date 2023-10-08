@@ -1,4 +1,4 @@
-This is the official _Godot_ 2D tutorial "**Dodge The Creeps**" game with _LootLocker_ _guest login_ feature and leaderboard integration.
+This is the official _Godot_ 2D tutorial "**Dodge The Creeps**" game with _LootLocker_ _guest login_ feature and _leaderboard_ integration.
 
 It is not, by far, a comprenhensive tutorial on how to add _LootLocker_ features to your game, but more like the official demo, a working sample to take inspiration from.
 It is neither the best way to use [_LootLocker_ SDK](https://github.com/ARez2/LootLocker-Godot-SDK) as it is still under heavy developpement and many things will change sooner or later.
@@ -26,7 +26,7 @@ The definitive version of the leaderboard shows the first ten scores IF there ar
 
 ### itch.io
 
-You can play the ame in your browser there -> URL WILL BE SET SOON
+You can play the game in your browser there -> URL WILL BE SET SOON
 
 ### computer version
 
